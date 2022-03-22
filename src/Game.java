@@ -3,6 +3,18 @@ public class Game {
 
     private int status, level;
     Player player;
+    private Board board;
+
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+
 
     public int getStatus() {
         return status;
@@ -33,6 +45,7 @@ public class Game {
         player = new Player(0.4);
         status = PLAYING;
         level = 0;
+        board = new Board();
     }
 
     public void update(long startNanoTime){
