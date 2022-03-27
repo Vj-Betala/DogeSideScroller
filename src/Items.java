@@ -84,6 +84,8 @@ public class Items {
         this.xPos = pos.x;
         this.yPos = pos.y;
         this.step = step;
+        rect = new Rectangle(pos.x, pos.y, 40,40);
+        buffer = new BufferedImage(40,40,BufferedImage.TYPE_4BYTE_ABGR);
     }
 
     public void move(int dir){}
@@ -93,9 +95,10 @@ public class Items {
         rect.y = (int) yPos;
     }
 
-    public boolean collisionCheck(Rectangle player){
-        return rect.intersects(player);
-    }
+//    public boolean collisionCheck(Point player){
+//        return rect.contains(player);
+//    }
+    public boolean collisionCheck(Rectangle player){return rect.intersects(player);}
 
     public void update(long nanoStartTime){
 

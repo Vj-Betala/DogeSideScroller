@@ -1,4 +1,7 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Walls extends Items{
 
@@ -16,6 +19,11 @@ public class Walls extends Items{
         super(0, pos, 0);
         this.laserSource = laserSource;
         setHostile(false);
+        try{
+            setBuffer(ImageIO.read(new File("src/Levels/testImgWall.png")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

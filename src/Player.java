@@ -12,7 +12,9 @@ public class Player extends Items{
     }
 
     public Player(double step) {
-        super(0, new Point(0,0), 1);
+        super(0, new Point(40,40), step);
+        this.setRect(new Rectangle(40,40,35,35));
+        this.lives = 5;
         setHostile(false);
     }
 
@@ -21,10 +23,10 @@ public class Player extends Items{
         switch(dir) {
             // TODO: 3/12/22 Check Collision in game 
             case UP:
-                this.setyPos(getyPos() + getStep());
+                this.setyPos(getyPos() - getStep());
                 break;
             case DOWN:
-                this.setyPos(getyPos() - getStep());
+                this.setyPos(getyPos() + getStep());
                 break;
             case RIGHT:
                 this.setxPos(getxPos() + getStep());
