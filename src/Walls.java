@@ -14,6 +14,7 @@ public class Walls extends Items{
     }
 
     private boolean laserSource;
+    BufferedImage imgLaser;
 
     public Walls(Point pos, boolean laserSource) {
         super(0, pos, 0);
@@ -21,6 +22,10 @@ public class Walls extends Items{
         setHostile(false);
         try{
             setBuffer(ImageIO.read(new File("src/Levels/testImgWall.png")));
+            if(laserSource) {
+                setBuffer(ImageIO.read(new File("src/Levels/laserOffImg.png")));
+                imgLaser = ImageIO.read(new File("src/Levels/LaserOnImg.png"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

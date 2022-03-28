@@ -19,12 +19,12 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
     public void paint(Graphics g) {
         Graphics bg = panelBoard.getGraphics();
+        bg.setColor(Color.BLACK);
+        bg.fillRect(0, 0, SCREENSIZE[0], SCREENSIZE[1]);
 
         if (game.getStatus() == Game.PLAYING){
             Board tmp = game.getBoard();
 
-            bg.setColor(Color.BLACK);
-            bg.fillRect(0, 0, SCREENSIZE[0], SCREENSIZE[1]);
 
             Rectangle visibleScreen = tmp.getVisibleScreen();
 
@@ -47,6 +47,13 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
             g.drawImage(panelBoard, 0, 0, null);
         }
+        if(game.getStatus() == Game.WON){
+            bg.setColor(Color.WHITE);
+            bg.drawString("You have won, press 'r' to reset game from level 1", 50,50);
+        } else {
+            bg.setColor(Color.white);
+            bg.drawString("You have lost, press 'r' to reset game from level 1", 50, 50);
+        }
 
     }
 
@@ -60,8 +67,8 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
 //        System.out.println("Moving");
 
+        char x = e.getKeyChar();
         if(game.getStatus() == Game.PLAYING){
-            char x = e.getKeyChar();
 
             switch (x) {
                 case 'w':
@@ -77,10 +84,16 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
                     game.movePlayer(Player.RIGHT);
                     break;
             }
+            game.gameChecks();
+            repaint();
+            return;
         }
 
-        game.gameChecks();
-        repaint();
+        if(x == 'r'){
+            game = new Game();
+            run();
+        }
+
     }
 
     @Override
@@ -90,7 +103,15 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void run() {
-        game.update(startNanoTime);
+        while(game.getStatus() == Game.PLAYING){
+            try {
+                game.update(startNanoTime++);
+                Thread.sleep(1000 / UPS);
+                repaint();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void addNotify(){

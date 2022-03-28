@@ -1,6 +1,8 @@
 public class mainDoge {
     public static void main(String[] args){
-        new dogeFrame("");
+        dogeFrame a = new dogeFrame("");
+        Thread t = new Thread(a.p);
+        t.start();
 
     }
 }

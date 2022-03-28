@@ -101,6 +101,6 @@ public class Items {
     public boolean collisionCheck(Rectangle player){return rect.intersects(player);}
 
     public void update(long nanoStartTime){
-
+        setRect();
     }
 }

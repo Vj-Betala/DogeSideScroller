@@ -54,11 +54,22 @@ public class Game {
 
     public void update(long startNanoTime){
 
+        for (Items i: board.items) {
+            i.move(0);
+            i.update(startNanoTime);
+        }
+
+
+        gameChecks();
     }
 
     public int winCheck() {
-        if(level < 5){
+        if(level < 2){
             board.newLevel(level);
+            level++;
+            player.setxPos(40);
+            player.setyPos(40);
+            player.setRect();
             if(player.getLives() < 5){
                 player.setLives(player.getLives() + 1);
             }
@@ -72,8 +83,7 @@ public class Game {
     public boolean gameChecks() {
 
         if(board.getGoal().getRect().contains(player.getRect())){
-            winCheck();
-//            System.out.println("On Goal");
+            status = winCheck();
             return true;
         }
 
@@ -120,5 +130,9 @@ public class Game {
         }
 
         board.updateVisibleScreen(player.getRect());
+    }
+
+    public void reset() {
+
     }
 }

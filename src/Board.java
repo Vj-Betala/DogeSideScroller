@@ -72,7 +72,7 @@ public class Board {
         this.visibleScreen = visibleScreen;
     }
 
-    public final static char NOTHING = '0', WALL = '1', GOAL = '3', OBS = '4', LASER = '6', LASERORIGIN = '7';
+    public final static char NOTHING = '0', WALL = '1', GOAL = '3', OBS = '4', OBSPOINT = '5', LASER = '6', LASERORIGIN = '7';
 //    public final static char newLine = ',';
 
     public Board() {
@@ -84,6 +84,7 @@ public class Board {
         levels = new File[5];
 
         levels[0] = new File("src/Levels/Level1.txt");
+        levels[1] = new File("src/Levels/Level2.txt");
 
         try{
             if(levels[0].isFile()){
@@ -106,6 +107,17 @@ public class Board {
                         break;
                     case GOAL:
                         this.goal = new Goal(new Point(j*40, i*40));
+                        break;
+                    case LASERORIGIN:
+                        items.add(new Walls(new Point(j*40, i*40), true));
+                        break;
+                    case LASER:
+                        items.add(new Laser(new Point(j * 40, i * 40)));
+                        break;
+                    case OBS:
+                        ArrayList<Point> tmpPoint = ObsPointHelper(i,j);
+//                        System.out.println(tmpPoint.toString());
+                        items.add(new Obstacle(tmpPoint.toArray(new Point[0]), 10));
                 }
             }
         }
@@ -113,9 +125,59 @@ public class Board {
         updateVisibleScreen(new Rectangle(40,40,35,35));
     }
 
+    public ArrayList<Point> ObsPointHelper(int i, int j) {
+        ArrayList<Point> tmpPoint = new ArrayList<>();
+        tmpPoint.add(new Point(j*40,i*40));
+        boolean run = true;
+        while(run){
+            if(levelString[i].charAt(j+1) == OBSPOINT){
+                tmpPoint.add(new Point((++j)*40, i*40));
+            } else if(levelString[i+1].charAt(j) == OBSPOINT){
+                tmpPoint.add(new Point(j*40, (++i)*40));
+            } else {
+                return tmpPoint;
+            }
+        }
+
+        return tmpPoint;
+    }
+
     public void newLevel(int currLevel) {
         if(currLevel < 5){
-            // TODO: 3/25/22 Gen String from CurrLevel
+            levelString = new String[32];
+            items = new ArrayList<>();
+            try{
+                if(levels[1].isFile()){
+                    keyboard = new Scanner(levels[1]);
+                    int x = 0;
+                    while(keyboard.hasNextLine() && x < levelString.length) {
+                        levelString[x] = keyboard.nextLine();
+                        x++;
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < levelString.length; i++) {
+                for (int j = 0; j < levelString[i].length(); j++) {
+                    switch (levelString[i].charAt(j)){
+                        case WALL:
+                            items.add(new Walls(new Point(j*40, i*40), false));
+                            break;
+                        case GOAL:
+                            this.goal = new Goal(new Point(j*40, i*40));
+                            break;
+                        case LASERORIGIN:
+                            items.add(new Walls(new Point(j*40, i*40), true));
+                            System.out.println("LaserSource");
+                            break;
+                        case LASER:
+                            items.add(new Laser(new Point(j * 40, i * 40)));
+                            break;
+                    }
+                }
+            }
         }
     }
 
