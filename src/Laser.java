@@ -6,8 +6,8 @@ public class Laser extends Items{
     private boolean visible;
     final static int toggleUpdate = 100;
 
-    public Laser(Point pos) {
-        super(0, pos, 0);
+    public Laser(Point[] pos, int dir) {
+        super(0, pos[0], 0);
         visible = rand.nextBoolean();
         setHostile(true);
         try{

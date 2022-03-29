@@ -110,14 +110,15 @@ public class Board {
                         break;
                     case LASERORIGIN:
                         items.add(new Walls(new Point(j*40, i*40), true));
-                        break;
-                    case LASER:
-                        items.add(new Laser(new Point(j * 40, i * 40)));
+                        ArrayList<Point> tmpPointLaser = PointHelper(i,j,LASER);
+                        // TODO: 3/28/22 Move in Straight Line and find Laser
+                        items.add(new Laser(tmpPointLaser.toArray(new Point[0]), 1));
                         break;
                     case OBS:
-                        ArrayList<Point> tmpPoint = ObsPointHelper(i,j);
-//                        System.out.println(tmpPoint.toString());
-                        items.add(new Obstacle(tmpPoint.toArray(new Point[0]), 10));
+                        ArrayList<Point> tmpPointOBS = PointHelper(i,j,OBSPOINT);
+                        System.out.println(tmpPointOBS.toString());
+                        items.add(new Obstacle(tmpPointOBS.toArray(new Point[0]), 0.5));
+                        break;
                 }
             }
         }
@@ -125,20 +126,22 @@ public class Board {
         updateVisibleScreen(new Rectangle(40,40,35,35));
     }
 
-    public ArrayList<Point> ObsPointHelper(int i, int j) {
+    public ArrayList<Point> PointHelper(int i, int j,int finder) {
         ArrayList<Point> tmpPoint = new ArrayList<>();
-        tmpPoint.add(new Point(j*40,i*40));
+        Point start = new Point(j*40,i*40);
+        tmpPoint.add(start);
         boolean run = true;
         while(run){
-            if(levelString[i].charAt(j+1) == OBSPOINT){
+            if(j < levelString[i].length() && levelString[i].charAt(j+1) == finder){
                 tmpPoint.add(new Point((++j)*40, i*40));
-            } else if(levelString[i+1].charAt(j) == OBSPOINT){
+            } else if(i < levelString.length && levelString[i+1].charAt(j) == finder){
                 tmpPoint.add(new Point(j*40, (++i)*40));
             } else {
                 return tmpPoint;
             }
         }
 
+        tmpPoint.add(new Point(j*40,i*40));
         return tmpPoint;
     }
 
@@ -172,9 +175,9 @@ public class Board {
                             items.add(new Walls(new Point(j*40, i*40), true));
                             System.out.println("LaserSource");
                             break;
-                        case LASER:
-                            items.add(new Laser(new Point(j * 40, i * 40)));
-                            break;
+//                        case LASER:
+//                            items.add(new Laser(new Point(j * 40, i * 40)));
+//                            break;
                     }
                 }
             }
