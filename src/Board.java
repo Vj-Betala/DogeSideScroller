@@ -109,14 +109,18 @@ public class Board {
                         this.goal = new Goal(new Point(j*40, i*40));
                         break;
                     case LASERORIGIN:
-                        items.add(new Walls(new Point(j*40, i*40), true));
                         ArrayList<Point> tmpPointLaser = PointHelper(i,j,LASER);
-                        // TODO: 3/28/22 Move in Straight Line and find Laser
-                        items.add(new Laser(tmpPointLaser.toArray(new Point[0]), 1));
+//                        System.out.println(tmpPointLaser.toString());
+                        Point p1 = tmpPointLaser.get(0), p2 = tmpPointLaser.get(1);
+                        if(p1.y - p2.y != 0){
+                        items.add(new Laser(tmpPointLaser.get(0),2, tmpPointLaser.size(), 1));
+                        } else {
+                        items.add(new Laser(tmpPointLaser.get(0),4, 1, tmpPointLaser.size()));
+                        }
+                        items.add(new Walls(new Point(j*40, i*40), true));
                         break;
                     case OBS:
                         ArrayList<Point> tmpPointOBS = PointHelper(i,j,OBSPOINT);
-                        System.out.println(tmpPointOBS.toString());
                         items.add(new Obstacle(tmpPointOBS.toArray(new Point[0]), 0.5));
                         break;
                 }
@@ -136,6 +140,10 @@ public class Board {
                 tmpPoint.add(new Point((++j)*40, i*40));
             } else if(i < levelString.length && levelString[i+1].charAt(j) == finder){
                 tmpPoint.add(new Point(j*40, (++i)*40));
+//            } else if(j > 0 && levelString[i].charAt(j-1) == finder){
+//                tmpPoint.add(new Point((--j)*40, i*40));
+//            } else if(i > 0 && levelString[i-1].charAt(j) == finder){
+//                tmpPoint.add(new Point(j*40, (--i)*40));
             } else {
                 return tmpPoint;
             }

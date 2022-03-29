@@ -35,4 +35,5 @@ public class Walls extends Items{
     public void move(int dir) {
         super.move(dir);
     }
+
 }
