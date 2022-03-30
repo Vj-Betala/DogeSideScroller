@@ -1,6 +1,7 @@
 import com.sun.tools.doclets.formats.html.PackageIndexFrameWriter;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,6 +13,9 @@ public class Board {
     private String[] levelString;
     Goal goal;
     ArrayList<Items> items;
+    ArrayList<Items> walls;
+    ArrayList<Items> laser;
+    ArrayList<BufferedImage> wallsImg, obsImg, laserImg;
 
     public ArrayList<Items> getVisibleItems() {
         return visibleItems;
@@ -77,7 +81,7 @@ public class Board {
 
     public Board() {
         items = new ArrayList<>();
-        levelString = new String[17];
+        levelString = new String[18];
         visibleScreen = new Rectangle(0,0,dogePanel.SCREENSIZE[0], dogePanel.SCREENSIZE[1]);
         visibleItems = new ArrayList<>();
 
@@ -127,7 +131,7 @@ public class Board {
             }
         }
 
-        updateVisibleScreen(new Rectangle(40,40,35,35));
+        updateVisibleScreen(new Rectangle(40,40,35,35), new int[]{0,0});
     }
 
     public ArrayList<Point> PointHelper(int i, int j,int finder) {
@@ -180,19 +184,27 @@ public class Board {
                             this.goal = new Goal(new Point(j*40, i*40));
                             break;
                         case LASERORIGIN:
+                            ArrayList<Point> tmpPointLaser = PointHelper(i,j,LASER);
+//                        System.out.println(tmpPointLaser.toString());
+                            Point p1 = tmpPointLaser.get(0), p2 = tmpPointLaser.get(1);
+                            if(p1.y - p2.y != 0){
+                                items.add(new Laser(tmpPointLaser.get(0),2, tmpPointLaser.size(), 1));
+                            } else {
+                                items.add(new Laser(tmpPointLaser.get(0),4, 1, tmpPointLaser.size()));
+                            }
                             items.add(new Walls(new Point(j*40, i*40), true));
-                            System.out.println("LaserSource");
                             break;
-//                        case LASER:
-//                            items.add(new Laser(new Point(j * 40, i * 40)));
-//                            break;
+                        case OBS:
+                            ArrayList<Point> tmpPointOBS = PointHelper(i,j,OBSPOINT);
+                            items.add(new Obstacle(tmpPointOBS.toArray(new Point[0]), 0.5));
+                            break;
                     }
                 }
             }
         }
     }
 
-    public void updateVisibleScreen(Rectangle player){
+    public void updateVisibleScreen(Rectangle player, int[] screenSize){
         visibleItems = new ArrayList<>();
         if(player.x < visibleScreen.width/2){
             visibleScreen.x = 0;

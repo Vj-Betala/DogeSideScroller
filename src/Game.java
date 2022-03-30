@@ -1,9 +1,7 @@
-import sun.jvm.hotspot.memory.PlaceholderEntry;
-
-import java.awt.*;
 
 public class Game {
     final static int PLAYING = 0, DEAD = -1, WON = 1;
+    int currLevel;
 
     private int status, level;
     Player player;
@@ -46,37 +44,58 @@ public class Game {
 
 
     public Game() {
-        player = new Player(3.5);
+        player = new Player(1.5);
         status = PLAYING;
         level = 0;
         board = new Board();
     }
 
     public void update(long startNanoTime){
+        if(status == PLAYING) {
+            for (Items i : board.items) {
+                i.move();
+                i.update(startNanoTime);
+            }
 
-        for (Items i: board.items) {
-            i.move(0);
-            i.update(startNanoTime);
+            if(gameChecks()) {
+                player.move();
+                board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
+            }
+            if(!gameChecks()){
+                switch(player.getDirection()){
+                    case Player.UP:
+                        player.setyPos(player.getyPos()+player.getStep());
+                        player.setRect();
+                        break;
+                    case Player.DOWN:
+                        player.setyPos(player.getyPos()-player.getStep());
+                        player.setRect();
+                        break;
+                    case Player.LEFT:
+                        player.setxPos(player.getxPos()+player.getStep());
+                        player.setRect();
+                        break;
+                    case Player.RIGHT:
+                        player.setxPos(player.getxPos()-player.getStep());
+                        player.setRect();
+                        break;
+                }
+            }
         }
-
-
-        gameChecks();
     }
 
     public int winCheck() {
-        if(level < 2){
+        if(level < 1){
             board.newLevel(level);
             level++;
             player.setxPos(40);
             player.setyPos(40);
             player.setRect();
-            if(player.getLives() < 5){
-                player.setLives(player.getLives() + 1);
-            }
-
+            player.setLives(player.getLives() + 1);
             return PLAYING;
         }
 
+        System.out.println("Won");
         return WON;
     }
 
@@ -91,7 +110,7 @@ public class Game {
             if(i.collisionCheck(player.getRect())){
                 if(i.isHostile()){
                     player.setLives(player.getLives() - 1);
-                    if(player.getLives() < 0){
+                    if(player.getLives() < 1){
                         status = DEAD;
                     } else {
                         player.setxPos(40);
@@ -99,8 +118,7 @@ public class Game {
                         player.setRect();
                     }
                     return true;
-                } else {
-//                    System.out.println("On Wall");
+                }else {
                     return false;
                 }
             }
@@ -111,28 +129,16 @@ public class Game {
     }
 
     public void movePlayer(int dir){
-        player.move(dir);
-        if(!gameChecks()){
-            switch (dir){
-                case Player.UP:
-                    player.move(Player.DOWN);
-                    break;
-                case Player.DOWN:
-                    player.move(Player.UP);
-                    break;
-                case Player.RIGHT:
-                    player.move(Player.LEFT);
-                    break;
-                case Player.LEFT:
-                    player.move(Player.RIGHT);
-                    break;
-            }
-        }
-
-        board.updateVisibleScreen(player.getRect());
+        player.setDirection(dir);
+//        board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
     }
 
-    public void reset() {
-
-    }
+//    public void reset() {
+//        player.setxPos(40);
+//        player.setyPos(40);
+//        player.setRect();
+//        status = PLAYING;
+//        level = 0;
+//        board = new Board();
+//    }
 }

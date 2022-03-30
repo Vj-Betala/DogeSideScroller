@@ -32,8 +32,8 @@ public class Walls extends Items{
     }
 
     @Override
-    public void move(int dir) {
-        super.move(dir);
+    public void move() {
+        super.move();
     }
 
 }

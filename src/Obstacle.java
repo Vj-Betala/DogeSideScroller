@@ -20,7 +20,7 @@ public class Obstacle extends Items{
     }
 
     @Override
-    public void move(int dir) {
+    public void move() {
 
         if(distance <= 0){
             if(currentPoint == getPath().length-1)
@@ -57,6 +57,6 @@ public class Obstacle extends Items{
 
     @Override
     public void update(long nanoStartTime) {
-        move(0);
+        move();
     }
 }

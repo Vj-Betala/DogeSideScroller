@@ -88,7 +88,7 @@ public class Items {
         buffer = new BufferedImage(40,40,BufferedImage.TYPE_4BYTE_ABGR);
     }
 
-    public void move(int dir){}
+    public void move(){}
 
     public void setRect() {
         rect.x = (int) xPos;

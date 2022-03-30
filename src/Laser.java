@@ -41,11 +41,16 @@ public class Laser extends Items{
         } else {
             BufferedImage bg = new BufferedImage(getRect().width,getRect().height,BufferedImage.TYPE_4BYTE_ABGR);
             Graphics g = bg.getGraphics();
-            int percent = (int)(startNanoTime % toggleUpdate)*255/toggleUpdate;
-            System.out.println(percent);
-            g.setColor(new Color(255,255,0,percent));
-            g.fillRect(0,0,getRect().width, getRect().height);
-            setBuffer(null);
+            int percent;
+            g.setColor(new Color(255,0,0, 7));
+            if(getDirection() == 2) {
+                percent = (int) (startNanoTime % toggleUpdate)*getRect().height/toggleUpdate;
+                g.fillRect(0,0,getRect().width, percent);
+            } else {
+                percent = (int) (startNanoTime % toggleUpdate) * getRect().width / toggleUpdate;
+                g.fillRect(0,0,percent, getRect().height);
+            }
+            setBuffer(bg);
         }
     }
 

@@ -45,15 +45,14 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
                 bg.fillRect(10+ i*(15 + 5), 10, 15,15);
             }
 
-            g.drawImage(panelBoard, 0, 0, null);
-        }
-        if(game.getStatus() == Game.WON){
+        } else if(game.getStatus() == Game.WON){
             bg.setColor(Color.WHITE);
             bg.drawString("You have won, press 'r' to reset game from level 1", 50,50);
-        } else {
-            bg.setColor(Color.white);
+        } else if(game.getStatus() == Game.DEAD) {
+            bg.setColor(Color.WHITE);
             bg.drawString("You have lost, press 'r' to reset game from level 1", 50, 50);
         }
+        g.drawImage(panelBoard, 0, 0, null);
 
     }
 
@@ -64,12 +63,8 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-//        System.out.println("Moving");
-
         char x = e.getKeyChar();
         if(game.getStatus() == Game.PLAYING){
-
             switch (x) {
                 case 'w':
                     game.movePlayer(Player.UP);
@@ -84,26 +79,25 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
                     game.movePlayer(Player.RIGHT);
                     break;
             }
-            game.gameChecks();
             repaint();
-            return;
         }
 
-        if(x == 'r'){
+        if(x == 'r' && (game.getStatus() == Game.DEAD || game.getStatus() == Game.WON)){
+            System.out.println("Reset");
             game = new Game();
-            run();
+            repaint();
         }
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        game.movePlayer(0);
     }
 
     @Override
     public void run() {
-        while(game.getStatus() == Game.PLAYING){
+        while(true){
             try {
                 game.update(startNanoTime++);
                 Thread.sleep(1000 / UPS);

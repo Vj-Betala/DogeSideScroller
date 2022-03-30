@@ -18,10 +18,8 @@ public class Player extends Items{
         setHostile(false);
     }
 
-    @Override
-    public void move(int dir) {
-        switch(dir) {
-            // TODO: 3/12/22 Check Collision in game 
+    public void move() {
+        switch(getDirection()) {
             case UP:
                 this.setyPos(getyPos() - getStep());
                 break;
