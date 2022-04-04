@@ -65,20 +65,22 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
     public void keyPressed(KeyEvent e) {
         char x = e.getKeyChar();
         if(game.getStatus() == Game.PLAYING){
+
             switch (x) {
                 case 'w':
-                    game.movePlayer(Player.UP);
+                    game.getPlayer().up = true;
                     break;
                 case 'a':
-                    game.movePlayer(Player.LEFT);
+                    game.getPlayer().left = true;
                     break;
                 case 's':
-                    game.movePlayer(Player.DOWN);
+                    game.getPlayer().down = true;
                     break;
                 case 'd':
-                    game.movePlayer(Player.RIGHT);
+                    game.getPlayer().right = true;
                     break;
             }
+            game.gameChecks();
             repaint();
         }
 
@@ -92,7 +94,27 @@ public class dogePanel extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        game.movePlayer(0);
+        char x = e.getKeyChar();
+
+        if(game.getStatus() == Game.PLAYING){
+
+            switch (x) {
+                case 'w':
+                    game.getPlayer().up = false;
+                    break;
+                case 'a':
+                    game.getPlayer().left = false;
+                    break;
+                case 's':
+                    game.getPlayer().down = false;
+                    break;
+                case 'd':
+                    game.getPlayer().right = false;
+                    break;
+            }
+            game.gameChecks();
+            repaint();
+        }
     }
 
     @Override

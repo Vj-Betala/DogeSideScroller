@@ -186,13 +186,13 @@ public class Board {
                         case LASERORIGIN:
                             ArrayList<Point> tmpPointLaser = PointHelper(i,j,LASER);
 //                        System.out.println(tmpPointLaser.toString());
+                            items.add(new Walls(new Point(j*40, i*40), true));
                             Point p1 = tmpPointLaser.get(0), p2 = tmpPointLaser.get(1);
                             if(p1.y - p2.y != 0){
                                 items.add(new Laser(tmpPointLaser.get(0),2, tmpPointLaser.size(), 1));
                             } else {
                                 items.add(new Laser(tmpPointLaser.get(0),4, 1, tmpPointLaser.size()));
                             }
-                            items.add(new Walls(new Point(j*40, i*40), true));
                             break;
                         case OBS:
                             ArrayList<Point> tmpPointOBS = PointHelper(i,j,OBSPOINT);

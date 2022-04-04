@@ -62,30 +62,26 @@ public class Game {
                 board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
             }
             if(!gameChecks()){
-                switch(player.getDirection()){
-                    case Player.UP:
-                        player.setyPos(player.getyPos()+player.getStep());
-                        player.setRect();
-                        break;
-                    case Player.DOWN:
-                        player.setyPos(player.getyPos()-player.getStep());
-                        player.setRect();
-                        break;
-                    case Player.LEFT:
-                        player.setxPos(player.getxPos()+player.getStep());
-                        player.setRect();
-                        break;
-                    case Player.RIGHT:
-                        player.setxPos(player.getxPos()-player.getStep());
-                        player.setRect();
-                        break;
+                if(player.up) {
+                    player.setyPos(player.getyPos() + player.getStep());
                 }
+                if(player.down) {
+                    player.setyPos(player.getyPos() - player.getStep());
+                }
+                if(player.left) {
+                    player.setxPos(player.getxPos() + player.getStep());
+                }
+                if(player.right) {
+                    player.setxPos(player.getxPos() - player.getStep());
+                }
+
+                player.setRect();
             }
         }
     }
 
     public int winCheck() {
-        if(level < 1){
+        if(level <= 2){
             board.newLevel(level);
             level++;
             player.setxPos(40);
@@ -128,17 +124,8 @@ public class Game {
 
     }
 
-    public void movePlayer(int dir){
-        player.setDirection(dir);
-//        board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
-    }
-
-//    public void reset() {
-//        player.setxPos(40);
-//        player.setyPos(40);
-//        player.setRect();
-//        status = PLAYING;
-//        level = 0;
-//        board = new Board();
+//    public void movePlayer(int dir){
+//        player.setDirection(dir);
 //    }
+
 }
