@@ -46,7 +46,7 @@ public class Game {
     public Game() {
         player = new Player(4.5);
         status = PLAYING;
-        level = 0;
+        level = 1;
         board = new Board();
     }
 
@@ -84,7 +84,6 @@ public class Game {
     public int winCheck() {
         if(level < 4){
             board.newLevel(level);
-//            System.out.println(level++);
             level++;
             player.setxPos(40);
             player.setyPos(40);
