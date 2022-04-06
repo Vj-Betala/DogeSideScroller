@@ -202,11 +202,12 @@ public class Board {
                 if (levels[currLevel].isFile()) {
                     keyboard = new Scanner(levels[currLevel]);
                     int x = 0;
-                    System.out.println(levels[currLevel+1].getPath());
+                    System.out.println(levels[currLevel].getPath());
                     while (keyboard.hasNextLine() && x < levelString.length) {
                         levelString[x] = keyboard.nextLine();
                         x++;
                     }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -223,14 +224,12 @@ public class Board {
                         break;
                     case LASERORIGIN:
                         ArrayList<Point> tmpPointLaser = PointHelper(i,j,LASER);
-//                        System.out.println(tmpPointLaser.toString());
                         Point p1 = tmpPointLaser.get(0), p2 = tmpPointLaser.get(1);
                         if(p1.y - p2.y != 0){
                             items.add(new Laser(tmpPointLaser.get(0),2, tmpPointLaser.size(), 1));
                         } else {
                             items.add(new Laser(tmpPointLaser.get(0),4, 1, tmpPointLaser.size()));
                         }
-                        System.out.println(tmpPointLaser.toString());
                         items.add(new Walls(new Point(j*40, i*40), true));
                         break;
                     case OBS:
