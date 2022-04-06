@@ -44,7 +44,7 @@ public class Game {
 
 
     public Game() {
-        player = new Player(1.5);
+        player = new Player(4.5);
         status = PLAYING;
         level = 0;
         board = new Board();
@@ -59,7 +59,6 @@ public class Game {
 
             if(gameChecks()) {
                 player.move();
-                board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
             }
             if(!gameChecks()){
                 if(player.up) {
@@ -77,12 +76,15 @@ public class Game {
 
                 player.setRect();
             }
+
+            board.updateVisibleScreen(player.getRect(), new int[]{0, 0});
         }
     }
 
     public int winCheck() {
-        if(level <= 2){
+        if(level < 4){
             board.newLevel(level);
+//            System.out.println(level++);
             level++;
             player.setxPos(40);
             player.setyPos(40);

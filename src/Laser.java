@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -20,18 +19,19 @@ public class Laser extends Items{
 
         try{
             if(getDirection() == 4){
-                int newYPos = (int) getyPos()+10;
+                int newYPos = (int) getyPos()+15;
                 setyPos(newYPos);
                 setRect(new Rectangle((int) getxPos(),newYPos,width*40, height*20));
-                g.fillRect(0, 10, getRect().width, getRect().height);
+                g.fillRect(0, 0, getRect().width, getRect().height);
             } else {
-                int newXPos = (int) getxPos()+10;
+                int newXPos = (int) getxPos()+15;
                 setxPos(newXPos);
                 setRect(new Rectangle(newXPos,(int)getyPos(),width*20, height*40));
-                g.fillRect(10, 0, getRect().width, getRect().height);
+                g.fillRect(0, 0, getRect().width, getRect().height);
             }
 
             setBuffer(buffer);
+
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class Laser extends Items{
                 } else {
                     g.setColor(Color.RED);
                 }
-                g.fillRect(0,40,40, 10);
+                g.fillRect(-10,40,getRect().width, 10);
             } else {
                 percent = (int) (startNanoTime % toggleUpdate) * 100 / toggleUpdate;
                 if(percent < 50){
@@ -74,7 +74,7 @@ public class Laser extends Items{
                 } else {
                     g.setColor(Color.RED);
                 }
-                g.fillRect(40, 0, 10, 40);
+                g.fillRect(40, -10, 10, getRect().height);
             }
             setBuffer(bg);
         }

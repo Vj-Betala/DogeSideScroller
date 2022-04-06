@@ -15,7 +15,7 @@ public class Player extends Items{
 
     public Player(double step) {
         super(0, new Point(40,40), step);
-        this.setRect(new Rectangle(40,40,35,35));
+        this.setRect(new Rectangle(40,40,25,25));
         this.lives = 5;
         setHostile(false);
     }

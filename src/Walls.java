@@ -21,7 +21,15 @@ public class Walls extends Items{
         this.laserSource = laserSource;
         setHostile(false);
         try{
-            setBuffer(ImageIO.read(new File("src/Levels/testImgWall.png")));
+            int x = rand.nextInt(4);
+            if (x == 0)
+                setBuffer(ImageIO.read(new File("src/Levels/testImgWall.png")));
+            else if (x == 1)
+                setBuffer(ImageIO.read(new File("src/Levels/testImgWall2.png")));
+            else if (x == 2)
+                setBuffer(ImageIO.read(new File("src/Levels/testImgWall3.png")));
+            else
+                setBuffer(ImageIO.read(new File("src/Levels/testImgWall4.png")));
             if(laserSource) {
                 setBuffer(ImageIO.read(new File("src/Levels/laserOffImg.png")));
                 imgLaser = ImageIO.read(new File("src/Levels/LaserOnImg.png"));
