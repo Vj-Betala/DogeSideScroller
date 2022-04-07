@@ -82,7 +82,7 @@ public class Game {
     }
 
     public int winCheck() {
-        if(level < 4){
+        if(level < 5){
             board.newLevel(level);
             level++;
             player.setxPos(40);
